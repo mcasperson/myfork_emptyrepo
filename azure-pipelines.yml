@@ -22,6 +22,7 @@ jobs:
     clean: all
   environment:
     name: Development
+    resourceType: VirtualMachine
     tags: web
   strategy:
     runOnce:    #rolling, canary are the other strategies that are supported
