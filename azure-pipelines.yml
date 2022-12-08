@@ -27,7 +27,27 @@ stages:
         SourcePath: 'java/products-microservice/target'
         Include: 'products-microservice-runner.jar'
         Overwrite: true
-        
+    - task: OctopusPush@5
+      inputs:
+        OctoConnectedServiceName: 'Mattc Octopus'
+        Space: 'Spaces-1370'
+        Package: 'products-service.1.0.$(Build.BuildNumber).zip'
+        Replace: 'true'
+    - task: OctopusCreateRelease@5
+      inputs:
+        OctoConnectedServiceName: 'Mattc Octopus'
+        Space: 'Spaces-1370'
+        ProjectGroup: 'ProjectGroups-1650'
+        ProjectName: 'Projects-3448'
+        ReleaseNumber: 
+    - task: OctopusDeployRelease@5
+      inputs:
+        OctoConnectedServiceName: 'Mattc Octopus'
+        Space: 'Spaces-1370'
+        ProjectGroup: 'ProjectGroups-1650'
+        Project: 'Projects-3448'
+        ReleaseNumber: 'latest'
+        Environments: '1.0.$(Build.BuildNumber)'
   - deployment: runcontainer
     displayName: Run Container
     workspace:
