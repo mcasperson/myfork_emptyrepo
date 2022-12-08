@@ -20,7 +20,9 @@ jobs:
   displayName: Run Container
   workspace:
     clean: all
-  environment: Development
+  environment:
+    name: Development
+    tags: web
   strategy:
     runOnce:    #rolling, canary are the other strategies that are supported
       deploy:
