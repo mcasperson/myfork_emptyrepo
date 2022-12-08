@@ -32,3 +32,25 @@ stages:
         deploy:
           steps:
           - bash: echo "Hello world"
+- stage: Test
+  displayName: Test
+  jobs:
+  - job: myJob
+    timeoutInMinutes: 10
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - bash: echo "Hello world"
+  - deployment: runcontainer
+    displayName: Run Container
+    workspace:
+      clean: all
+    environment:
+      name: Test
+      resourceType: VirtualMachine
+      tags: web
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - bash: echo "Hello world"
