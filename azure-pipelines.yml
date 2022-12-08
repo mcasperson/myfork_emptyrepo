@@ -9,23 +9,26 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-jobs:
-- job: myJob
-  timeoutInMinutes: 10
-  pool:
-    vmImage: 'ubuntu-latest'
-  steps:
-  - bash: echo "Hello world"
-- deployment: runcontainer
-  displayName: Run Container
-  workspace:
-    clean: all
-  environment:
-    name: Development
-    resourceType: VirtualMachine
-    tags: web
-  strategy:
-    runOnce:    #rolling, canary are the other strategies that are supported
-      deploy:
-        steps:
-        - bash: echo "Hello world"
+stages:
+- stage: Development
+  displayName: Development
+  jobs:
+  - job: myJob
+    timeoutInMinutes: 10
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - bash: echo "Hello world"
+  - deployment: runcontainer
+    displayName: Run Container
+    workspace:
+      clean: all
+    environment:
+      name: Development
+      resourceType: VirtualMachine
+      tags: web
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - bash: echo "Hello world"
