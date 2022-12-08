@@ -35,14 +35,21 @@ stages:
 - stage: Test
   displayName: Test
   jobs:
+  - job: waitForValidation
+    displayName: Wait for external validation  
+    pool: server    
+    timeoutInMinutes: 4320 # job times out in 3 days
+    steps:   
+    - task: ManualValidation@8
+      timeoutInMinutes: 1440 # task times out in 1 day
+      inputs:
+          instructions: 'Progress the deployment to the Test environment?'
+          onTimeout: reject
   - job: myJob
     timeoutInMinutes: 10
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-    - task: ManualIntervention@8
-      inputs:
-        instructions: Progress deployment to the Test environment?
     - bash: echo "Hello world"
   - deployment: runcontainer
     displayName: Run Container
