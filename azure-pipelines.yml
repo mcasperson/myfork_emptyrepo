@@ -40,6 +40,9 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
+    - task: ManualIntervention@8
+      inputs:
+        instructions: Progress deployment to the Test environment?
     - bash: echo "Hello world"
   - deployment: runcontainer
     displayName: Run Container
