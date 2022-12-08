@@ -19,6 +19,15 @@ stages:
       vmImage: 'ubuntu-latest'
     steps:
     - bash: echo "Hello world"
+    - task: OctopusPack@4
+      inputs:
+        PackageId: 'products-service'
+        PackageFormat: 'Zip'
+        PackageVersion: '1.0.$(Build.BuildNumber)'
+        SourcePath: 'java/products-microservice/target'
+        Include: 'products-microservice-runner.jar'
+        Overwrite: true
+        
   - deployment: runcontainer
     displayName: Run Container
     workspace:
