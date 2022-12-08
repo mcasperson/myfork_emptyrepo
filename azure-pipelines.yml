@@ -9,11 +9,20 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+jobs:
+- job: myJob
+  timeoutInMinutes: 10
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+  - bash: echo "Hello world"
+- deployment: runcontainer
+  displayName: Run Container
+  workspace:
+    clean: all
+  environment: Development
+  strategy:
+    runOnce:    #rolling, canary are the other strategies that are supported
+      deploy:
+        steps:
+        - bash: echo "Hello world"
